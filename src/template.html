@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#14163F">
+<title>FARLIGHT — The Lamp of Hearth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Chivo:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--night:#14163F;--blue:#2E3192;--orange:#FF6C2F;--pink:#FF48B0;--yellow:#FFE800;--teal:#00A99D;--cream:#FFF1C9;--dim:#9EA2D8;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px);
+  --display:"Bungee",Impact,"Arial Black",sans-serif;--body:"Chivo","Segoe UI",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--night);color:var(--cream);font-family:var(--body);touch-action:none;user-select:none;-webkit-user-select:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+
+/* panels */
+.panel{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:calc(16px + var(--sat)) calc(16px + var(--sar)) calc(16px + var(--sab)) calc(16px + var(--sal));z-index:20}
+.panel.on{display:flex}
+.panel.dim{background:rgba(20,22,63,.82)}
+.sheet{width:min(560px,100%);max-height:100%;overflow:auto;background:var(--night);border:3px solid var(--cream);box-shadow:8px 8px 0 var(--pink);padding:22px 22px 20px}
+.sheet h2{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1;color:var(--orange);text-shadow:2px 2px 0 var(--pink);margin-bottom:6px}
+.sheet p{font-size:15px;line-height:1.55;color:var(--cream);max-width:62ch}
+.lede{color:var(--dim)!important;margin-bottom:14px}
+.btn{display:block;width:100%;text-align:left;padding:13px 16px;margin-top:10px;background:transparent;border:2px solid var(--cream);font-weight:800;font-size:16px;letter-spacing:.01em;box-shadow:4px 4px 0 var(--blue);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--blue)}
+.btn.primary{background:var(--orange);color:var(--night);border-color:var(--orange);box-shadow:4px 4px 0 var(--pink)}
+.row{display:flex;gap:10px}.row .btn{flex:1}
+
+/* title */
+#title{align-items:flex-end;justify-content:flex-start;background:linear-gradient(to top,rgba(20,22,63,.94) 38%,rgba(20,22,63,0) 72%)}
+.titleblock{width:min(520px,100%);padding:0 0 4px}
+.logo{font-family:var(--display);font-weight:400;font-size:clamp(52px,14vw,104px);line-height:.9;color:var(--orange);text-shadow:.05em .04em 0 var(--pink),-.03em -.02em 0 rgba(0,169,157,.75);letter-spacing:-.01em}
+.tag{font-family:var(--display);font-size:clamp(15px,3.6vw,22px);color:var(--yellow);margin:6px 0 12px}
+.pitch{font-size:15px;line-height:1.55;max-width:44ch;margin-bottom:6px}
+#saveInfo{font-size:13px;color:var(--dim);margin-top:10px;min-height:1em}
+.ver{position:fixed;right:calc(12px + var(--sar));bottom:calc(10px + var(--sab));font-size:11px;color:var(--dim)}
+
+/* how */
+.how h3{font-family:var(--display);font-weight:400;font-size:15px;color:var(--yellow);margin:16px 0 4px}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;line-height:1.4}
+.keys dt{color:var(--orange);font-weight:800;white-space:nowrap}
+
+/* map & shop */
+.dest,.ware{display:flex;align-items:center;gap:14px;width:100%;text-align:left;margin-top:10px;padding:12px 14px;background:rgba(46,49,146,.35);border:2px solid var(--cream);box-shadow:4px 4px 0 var(--blue)}
+.dest:disabled,.ware:disabled{opacity:.45;cursor:default;box-shadow:none}
+.dest.here{border-color:var(--yellow)}
+.dt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.dt b{font-size:16px;font-weight:800}
+.dt small{font-size:13px;color:var(--dim);line-height:1.35}
+.st{font-size:12px;font-weight:800;color:var(--yellow);white-space:nowrap}
+.orb{flex:none;width:40px;height:40px;border-radius:50%;box-shadow:3px 3px 0 var(--pink);background:radial-gradient(circle at 30% 30%,var(--c1) 0 45%,var(--c2) 46%)}
+.hub .orb{--c1:#FFE800;--c2:#2E3192}.rust .orb{--c1:#FF6C2F;--c2:#5A2340}.reef .orb{--c1:#00A99D;--c2:#0B2B3F}
+.vault .orb{--c1:#FFE800;--c2:#3B2C73}.finale .orb{--c1:#FF48B0;--c2:#07081c}
+#shopScrap{font-family:var(--display);color:var(--yellow);font-size:16px}
+#shopMsg{min-height:1.5em;margin-top:12px;color:var(--teal)!important;font-weight:600}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+
+/* dialog */
+#dlg{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + var(--sab));width:min(680px,calc(100% - 24px));display:none;gap:14px;align-items:flex-start;background:var(--night);border:3px solid var(--cream);box-shadow:6px 6px 0 var(--pink);padding:14px;z-index:15;cursor:pointer}
+#dlg.on{display:flex}
+#dlg.narr #portrait{display:none}
+#dlg.narr{border-color:var(--yellow);box-shadow:6px 6px 0 var(--blue)}
+#dlg.narr #dlgText{font-style:italic}
+#portrait{flex:none;width:72px;height:72px;border:2px solid var(--cream)}
+#dlgName{font-family:var(--display);font-size:14px;margin-bottom:3px}
+#dlgText{font-size:16px;line-height:1.5}
+.cont{font-size:12px;color:var(--dim);margin-top:6px}
+
+/* touch controls */
+#pad{position:fixed;right:calc(14px + var(--sar));bottom:calc(18px + var(--sab));width:190px;height:170px;display:none;z-index:10}
+body.touch #pad{display:block}
+body.menu #pad,body.menu #pauseBtn{display:none}
+.tb{position:absolute;border-radius:50%;border:3px solid var(--cream);background:rgba(20,22,63,.55);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;touch-action:none;box-shadow:3px 3px 0 var(--pink)}
+.tb.down{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--pink);background:rgba(255,108,47,.6)}
+.tb.big{width:88px;height:88px;right:0;bottom:0;background:rgba(255,108,47,.8);color:var(--night);border-color:var(--orange);font-size:15px}
+.tb.dash{width:64px;height:64px;right:96px;bottom:4px}
+.tb.item{width:64px;height:64px;right:14px;bottom:100px}
+#pauseBtn{position:fixed;left:50%;transform:translateX(-50%);top:calc(10px + var(--sat));padding:6px 14px;background:rgba(20,22,63,.6);border:2px solid var(--cream);font-weight:800;font-size:13px;z-index:10;display:none}
+body.touch #pauseBtn{display:block}
+#dlg.on ~ #pad{opacity:.35}
+[hidden]{display:none!important}
+body.touch.menu #pad,body.touch.menu #pauseBtn{display:none}
+@media (prefers-reduced-motion:reduce){.btn,.tb{transition:none}}
+@media (max-height:480px){.sheet{padding:14px 16px}.logo{font-size:56px}.pitch{display:none}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<section class="panel" id="title"><div class="titleblock">
+  <div class="logo">FARLIGHT</div>
+  <div class="tag">The Lamp of Hearth</div>
+  <p class="pitch">The beacon that guides every ship home has gone silent. Fight through three worlds, recover the shards of its core, and learn who silenced it.</p>
+  <button class="btn" id="bContinue" hidden>Continue</button>
+  <button class="btn primary" id="bNew">Start the story</button>
+  <div class="row"><button class="btn" id="bHow">How to play</button><button class="btn" id="bSound">Sound on</button></div>
+  <div id="saveInfo"></div>
+</div><div class="ver">Version 3.0</div></section>
+
+<section class="panel dim" id="how"><div class="sheet how">
+  <h2>How to play</h2>
+  <p class="lede">Explore, fight, and find tools that open new paths.</p>
+  <h3>Touch</h3>
+  <dl class="keys"><dt>Left side</dt><dd>Drag anywhere to move</dd><dt>Strike</dt><dd>Attack nearby enemies, shoot distant ones, or talk</dd><dt>Dash</dt><dd>Quick dodge. You can't be hurt mid-dash</dd><dt>Item</dt><dd>Use the tool shown top right. Tap that box to switch tools</dd></dl>
+  <h3>Keyboard</h3>
+  <dl class="keys"><dt>WASD / arrows</dt><dd>Move</dd><dt>Space or J</dt><dd>Strike or talk</dd><dt>Shift or K</dt><dd>Dash</dd><dt>E or L</dt><dd>Use item</dd><dt>Q or Tab</dt><dd>Switch item</dd><dt>Esc</dt><dd>Pause</dd></dl>
+  <h3>Controller</h3>
+  <dl class="keys"><dt>Left stick</dt><dd>Move</dd><dt>A</dt><dd>Strike or talk</dd><dt>B or triggers</dt><dd>Dash</dd><dt>X or bumpers</dt><dd>Use item</dd><dt>Y</dt><dd>Switch item</dd><dt>Start</dt><dd>Pause</dd></dl>
+  <h3>Tips</h3>
+  <p>Step on the glowing chevrons to return to your ship. Keys open doors in the same area. Cracked walls, lasers, gaps, and dark pylons each need a tool you'll find along the way. Scrap buys upgrades from Tamsin on the Promenade.</p>
+  <button class="btn primary" id="bHowBack">Back</button>
+</div></section>
+
+<section class="panel dim" id="pause"><div class="sheet">
+  <h2>Paused</h2>
+  <button class="btn primary" id="bResume">Resume</button>
+  <button class="btn" id="bHow2">How to play</button>
+  <button class="btn" id="bSound2">Sound on</button>
+  <button class="btn" id="bQuit">Save and quit to title</button>
+</div></section>
+
+<section class="panel dim" id="map"><div class="sheet">
+  <h2>Where to, Ines?</h2>
+  <p class="lede">Your ship is fueled and waiting.</p>
+  <div id="mapList"></div>
+  <button class="btn" id="bMapClose">Stay here</button>
+</div></section>
+
+<section class="panel dim" id="shop"><div class="sheet">
+  <div class="top"><h2>Tamsin's stall</h2><span id="shopScrap"></span></div>
+  <div id="shopList"></div>
+  <p id="shopMsg"></p>
+  <button class="btn" id="bShopClose">Leave</button>
+</div></section>
+
+<section class="panel dim" id="end"><div class="sheet">
+  <h2>Hearth is singing again</h2>
+  <p class="lede">The Lamp is lit, the choir is quiet, and the Kessen are coming home.</p>
+  <p>You can keep exploring with your gear, or start a fresh voyage.</p>
+  <button class="btn primary" id="bEndStay">Keep exploring</button>
+  <button class="btn" id="bEndNew">New game</button>
+</div></section>
+
+<div id="dlg" role="dialog" aria-live="polite"><canvas id="portrait" width="144" height="144"></canvas><div><div id="dlgName"></div><div id="dlgText"></div><div class="cont">Tap, or press Space or A, to continue</div></div></div>
+<button id="pauseBtn">Pause</button>
+<div id="pad">
+  <button class="tb big" data-act="attack">Strike</button>
+  <button class="tb dash" data-act="dash">Dash</button>
+  <button class="tb item" data-act="item">Item</button>
+</div>
+<script>
+/*GAME*/
+</script>
+</body>
+</html>
