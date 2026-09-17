@@ -11,7 +11,7 @@ function angDiff(a, b) { let d = (a - b) % TAU; if (d > Math.PI) d -= TAU; if (d
 
 // ---------- zones ----------
 const ZONES = {
-  hub: { name:'Hearth Promenade', sub:'The last lit port', floor:INK.blue, floor2:'#282b88', wall:INK.orange, wallHi:'#FFA27A', shade:INK.pink, detail:INK.yellow, bg:INK.night,
+  hub: { name:'Hearth Promenade', sub:'The last lit port', floor:'#1e2350', floor2:'#232858', wall:'#3c3f7d', wallHi:'#585da4', wallEdge:'#0d0f2a', shade:'#0a0c22', detail:'#FFAE43', glow:'#FFD36B', bg:'#080a1c',
     notes:[60,64,67,71], npcs:{1:'bekele',2:'tamsin',3:'yara'}, map:[
 '##########################',
 '#........................#',
@@ -22,7 +22,7 @@ const ZONES = {
 '#.....@..................#',
 '#........................#',
 '###########EE#############']},
-  rust: { name:'Rust Moon', sub:"Kessa Vorn's salvage yard", floor:INK.plum, floor2:'#4d1d37', wall:INK.orange, wallHi:'#FFA27A', shade:'#2a0f22', detail:INK.yellow, bg:'#1c0a16',
+  rust: { name:'Rust Moon', sub:"Kessa Vorn's salvage yard", floor:'#3a2030', floor2:'#3f2434', wall:'#6d3a2c', wallHi:'#9a5738', wallEdge:'#1b0b12', shade:'#140a12', detail:'#FF8A3D', glow:'#FFC46B', bg:'#140a12',
     notes:[57,60,62,64], item:'arc', boss:'maw', map:[
 '########################################',
 '#........#...........#.................#',
@@ -41,7 +41,7 @@ const ZONES = {
 '#..E.....#.........r.#.................#',
 '#........#...........#.................#',
 '########################################']},
-  reef: { name:'Glass Reef', sub:'Where the Veil keep their secrets', floor:INK.deep, floor2:'#0a2536', wall:INK.teal, wallHi:'#7BE6DC', shade:INK.pink, detail:INK.pink, bg:'#04121c',
+  reef: { name:'Glass Reef', sub:'Where the Veil keep their secrets', floor:'#0e2f3d', floor2:'#113545', wall:'#1c5f66', wallHi:'#2f8f8e', wallEdge:'#04151d', shade:'#03101a', detail:'#37E0C8', glow:'#8BFFE9', bg:'#03101a',
     notes:[62,65,69,72], npcs:{4:'mira'}, item:'phase', boss:'warden', map:[
 '########################################',
 '#@.....#.............#.................#',
@@ -61,7 +61,7 @@ const ZONES = {
 '#..........#.........#.................#',
 '#..........#.........#.................#',
 '########################################']},
-  vault: { name:'Counting Vaults', sub:'Thessi ledgers, Thessi terms', floor:INK.violet, floor2:'#33265f', wall:INK.yellow, wallHi:'#FFF7A8', shade:INK.orange, detail:INK.orange, bg:'#150f2b',
+  vault: { name:'Counting Vaults', sub:'Thessi ledgers, Thessi terms', floor:'#241c48', floor2:'#292050', wall:'#4a3a7e', wallHi:'#6f59aa', wallEdge:'#0c0820', shade:'#100c22', detail:'#FFCE3D', glow:'#FFE79A', bg:'#100c22',
     notes:[55,58,62,65], npcs:{5:'clerk'}, item:'reso', boss:'auditor', map:[
 '########################################',
 '#@.....#.........#...........#.........#',
@@ -79,7 +79,7 @@ const ZONES = {
 '#........#...r...#...........#.........#',
 '#........#.......#.....s.....#.........#',
 '########################################']},
-  finale: { name:'Consumed Hearth', sub:'The first port, hollowed by the dark', floor:'#1b1e4d', floor2:'#15173f', wall:INK.pink, wallHi:'#FF9AD2', shade:INK.teal, detail:INK.teal, bg:'#07081c',
+  finale: { name:'Consumed Hearth', sub:'The first port, hollowed by the dark', floor:'#141634', floor2:'#181b3c', wall:'#3d2455', wallHi:'#633977', wallEdge:'#07060f', shade:'#05060f', detail:'#FF5FA8', glow:'#FF9BD0', bg:'#05060f',
     notes:[53,56,60,63], boss:'kessa', map:[
 '########################################',
 '#..................#..................E#',
